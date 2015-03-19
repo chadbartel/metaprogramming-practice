@@ -45,6 +45,7 @@ def add_signature(*names):
         return cls
     return decorate
 
+# Example
 @add_signature('name', 'shares', 'price')
 class Stock(Structure):
     pass
@@ -52,8 +53,9 @@ class Stock(Structure):
 @add_signature('x', 'y')
 class Point(Structure):
     pass
-    
-    
+
+
+
 
 # Lastly, we could do the same thing through setting a metaclass
 class StructMeta(type):
@@ -71,3 +73,10 @@ class Structure(metaclass=StructMeta):
             *args, **kwargs)
         for name, val in bound.arguments.items():
             setattr(self, name, val)
+
+# Example
+class Stock(Structure):
+    _fields = ['name', 'shares', 'price']
+    
+class Point(Structure):
+    _fields = ['x', 'y']
