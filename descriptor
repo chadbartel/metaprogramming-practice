@@ -1,0 +1,18 @@
+class Descriptor:
+    def __init__(self, name=None):
+        self.name = name
+        # This is capturing the KEY of a dict
+
+    def __get__(self, instance, cls):
+        # instance: is the instance being manipulated
+        # e.g. Stock instance or MasterClass instance
+        print("Get", self.name)
+        return instance.__dict__[self.name]
+
+    def __set__(self, instance, value):
+        print("Set", self.name, value)
+        instance.__dict__[self.name] = value
+
+    def __delete__(self, instance):
+        print("Delete", self.name)
+        del instance.__dict__[self.name]
