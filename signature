@@ -64,7 +64,7 @@ class StructMeta(type):
         setattr(clsobj, '__signature__', sig)
         return clsobj
 
-class Structure(metaclass=StructMeta)
+class Structure(metaclass=StructMeta):
     _fields = []
     def __init__(self, *args, **kwargs):
         bound = self.__signature__.bind(
