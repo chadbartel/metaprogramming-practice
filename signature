@@ -1,0 +1,35 @@
+import inspect
+from inspect import Parameter, Signature
+
+def make_signature(names):
+    return Signature(
+        Parameter(name,
+                  Parameter.POSITIONAL_OR_KEYWORD)
+        for name in names)
+
+class Structure:
+    # Define generalized init method
+    # This ensures we are entering all fields have values
+    # and we can support keyword args or positional
+    __signature__ = make_signature([])
+    def __init__(self, *args, **kwargs):
+        bound = self.__signature__.bind(
+            *args, **kwargs)
+        for name, val in bound.arguments.items():
+            setattr(self, name, val)
+
+
+# Simple example
+class Stock(Structure):
+    __signature__ = make_signature(['name', 'shares', 'price'])
+
+class Point(Structure):
+    __signature__ = make_signature(['x', 'y'])
+
+s = Stock('GOOG', 100, 490.1)
+print(s.name)
+print(s.shares)
+s = Stock(name='GOOG', price=490.1, shares=100) # kwargs
+s = Stock('GOOG', 100)  # throws error -> not enough args
+
+print(inspect.signature(Stock))
